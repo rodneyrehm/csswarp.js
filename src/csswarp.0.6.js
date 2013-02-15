@@ -14,6 +14,7 @@
         PI = Math.PI,
         hasTransform, WarpMachine;
 
+        
     if (/webkit/gi.test(userAgent)) {
         prefix = "-webkit-";
         cssPref = "Webkit";
@@ -66,12 +67,12 @@
                 warpedTexts[i] = new WarpMachine(arguments[i]);
             }
         }
-    }
+    };
 
     WarpMachine = function(confObj) {
         this.config = {};
         this.setUp(confObj);
-    }
+    };
 
     WarpMachine.prototype.setUp = function(conf) {
         var THIS = this,
@@ -131,7 +132,6 @@
             type = "circle";
         } else {
             throw new Error('ERROR: no valid path found in config Object');
-            return;
         }
 
         for (var i = 0, l = THIS.config.targets.length; i < l; i++) {
@@ -198,7 +198,7 @@
                 THIS.drawPath(THIS.config.targets[i], type, i);
             }
         }
-    }
+    };
 
     WarpMachine.prototype.attach2Circle = function(node) {
         var THIS = this,
@@ -277,7 +277,7 @@
             THIS.applyTransforms(letters, i, coords, angle);
             arcLength += (letters[i].width / 2 + letters.kerning) * arcDir;
         }
-    }
+    };
 
 
     WarpMachine.prototype.attach2Bezier = function(node) {
@@ -454,8 +454,8 @@
                 angle -= PI;
             }
             if (THIS.config.align === "right") {
-                angle += PI
-            };
+                angle += PI;
+            }
 
             return ((angle).toFixed(4));
         }
@@ -469,7 +469,7 @@
 
             return [dx, dy];
         }
-    }
+    };
 
 
     WarpMachine.prototype.applyTransforms = function(letters, index, coords, angle) {
@@ -503,7 +503,7 @@
         if (THIS.config.hasOwnProperty("shadows") && THIS.config.shadows.length > 0) {
             letters[index].elem.style.cssText += "text-shadow: " + THIS.fixShadow(angle);
         }
-    }
+    };
 
     WarpMachine.prototype.fixShadow = function(angle) {
         //calculate new x- and y- values for each shadow of each letter of our warped text:
@@ -518,11 +518,11 @@
             y = Math.sin(alpha) * shadows[i].radius;
             val += x + "px " + y + "px " + shadows[i].blur + "px " + shadows[i].col;
             if (i < l - 1) {
-                val += ", "
-            };
+                val += ", ";
+            }
         }
         return val;
-    }
+    };
 
     WarpMachine.prototype.getTextMetrics = function(node) {
         var THIS = this,
@@ -561,7 +561,7 @@
             letters.lngt += metrics[curChar];
         }
 
-        letters.kerning = kerning !== "normal" ? parseInt(kerning) : 0;
+        letters.kerning = kerning !== "normal" ? parseInt(kerning, 10) : 0;
         letters.indent = calcWidth("indent");
         letters.base = calcBaseline();
         letters.lngt += (i - 1) * letters.kerning;
@@ -602,12 +602,12 @@
 
                 return w;
             } else if (/px/gi.test(val)) {
-                return parseInt(val);
+                return parseInt(val, 10);
             } else {
                 return 0;
             }
         }
-    }
+    };
 
     WarpMachine.prototype.drawPath = function(target, type, id) {
         var canvas, ctx, currentBG, w, h, btmCache, THIS = this,
@@ -666,7 +666,7 @@
                 ctx.stroke();
             }
         }
-    }
+    };
 
     window.cssWarp = cssWarp;
 })();
